@@ -92,7 +92,7 @@ module switch_4port #(
 			if (dest_o[0]) begin
 				p0.valid_out = 1;
 				p0.data_out  = data_o;
-				p0.target_out = 4'b0;
+				p0.target_out = dest_o;
 				p0.source_out = grants;
 			end
 
@@ -100,7 +100,7 @@ module switch_4port #(
 			if (dest_o[1]) begin
 				p1.valid_out = 1;
 				p1.data_out  = data_o;
-				p1.target_out = 4'b0;
+				p1.target_out = dest_o;
 				p1.source_out = grants;
 			end
 
@@ -108,7 +108,7 @@ module switch_4port #(
 			if (dest_o[2]) begin
 				p2.valid_out = 1;
 				p2.data_out  = data_o;
-				p2.target_out = 4'b0;
+				p2.target_out = dest_o;
 				p2.source_out = grants;
 			end
 
@@ -116,7 +116,7 @@ module switch_4port #(
 			if (dest_o[3]) begin
 				p3.valid_out = 1;
 				p3.data_out  = data_o;
-				p3.target_out = 4'b0;
+				p3.target_out = dest_o;
 				p3.source_out = grants;
 			end
 		end
