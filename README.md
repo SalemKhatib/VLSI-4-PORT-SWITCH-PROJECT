@@ -19,9 +19,7 @@ The DUT was verified with a custom layered OOP SystemVerilog environment.
 * **Constrained-random traffic:** 70% unicast, 20% multicast, and 10% broadcast traffic distribution.
 * **Test size:** The submitted regression launches **2,000 generated input packets per port (8,000 total input packets)**.
 * **Functional coverage:** Archived project documentation reports **100% source/destination cross coverage**.
-* **Scoreboarding:** Archived runs report **0 mismatches**; historical match totals vary across runs, so no single output-transaction count is presented here as the canonical result.
-
-> Note: Earlier portfolio/CV versions quoted **12,081 packets**. The original source of that exact historical number is no longer traceable in the surviving artifacts, so the repository now uses only directly reproducible/documented counts.
+* **Scoreboarding:** Archived simulation runs report **0 mismatches**.
 
 ### 🏭 Stage C: Logic Synthesis & Optimization
 The RTL was synthesized using Synopsys Fusion Compiler targeting a 32 nm educational technology library.
