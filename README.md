@@ -1,32 +1,39 @@
 # 🔌 4-Port Packet Switch: RTL to Gate-Level Synthesis
 
 ### 📌 Project Overview
-A complete ASIC front-end development cycle for a parameterizable 4-Port Network Switch. The project encompasses the Register-Transfer Level (RTL) design, an advanced Object-Oriented SystemVerilog verification environment, and physical logic synthesis targeting the Synopsys SAED 32nm technology library.
+A 2-person academic ASIC front-end project for a parameterizable 4-port packet switch, covering RTL design, custom object-oriented SystemVerilog verification, synthesis/optimization, and gate-level simulation.
 
 ---
 
 ### ⚙️ Stage A: Architecture & RTL Design
-The hardware routes 16-bit packets between 4 independent input and output ports across a shared bus matrix. 
-* **Module:** The top-level `switch_4port.sv` integrates the crossbar multiplexer and arbitration logic.
-* **Control Logic:** Each port utilizes a 16-flit depth FIFO buffer managed by a 3-state Finite State Machine (`S_IDLE`, `S_REQUEST`, `S_TRANSMIT`) to handle flow control.
-* **Arbitration:** Contention is resolved using a synthesizable, sliding-window Round-Robin arbiter to ensure fair bandwidth distribution without packet dropping.
+The hardware routes 16-bit packets between four independent input/output ports through shared switching logic.
 
-### 🧪 Stage B: Advanced Hardware Verification
-To ensure zero packet loss and correct routing logic, the DUT was subjected to constrained-random verification using a custom OOP SystemVerilog environment.
-* **Layered Testbench:** Implemented a full architecture including Sequencers, Drivers, Monitors, and Agents synchronized via mailboxes.
-* **Constrained-Random Traffic:** The sequencer generated a targeted traffic distribution of 70% Unicast, 20% Multicast, and 10% Broadcast packets.
-* **Automated Scoreboarding:** Real-time data integrity checking utilizing four prediction queues as a Golden Model.
-* **Results:** Achieved **100% Cross Coverage** across source/destination routing with **0 mismatches** over 12,081 transmitted packets.
+* **Top level:** `switch_4port.sv` integrates four switch ports, shared arbitration, and output distribution.
+* **Buffering/control:** Each input port uses FIFO buffering and FSM-based flow control.
+* **Arbitration:** Contention is resolved using round-robin arbitration.
+
+### 🧪 Stage B: SystemVerilog Verification
+The DUT was verified with a custom layered OOP SystemVerilog environment.
+
+* **Layered testbench:** Sequencers, drivers, monitors, agents, mailboxes, and scoreboard-based checking.
+* **Constrained-random traffic:** 70% unicast, 20% multicast, and 10% broadcast traffic distribution.
+* **Test size:** The submitted regression launches **2,000 generated input packets per port (8,000 total input packets)**.
+* **Functional coverage:** Archived project documentation reports **100% source/destination cross coverage**.
+* **Scoreboarding:** Archived runs report **0 mismatches**; historical match totals vary across runs, so no single output-transaction count is presented here as the canonical result.
+
+> Note: Earlier portfolio/CV versions quoted **12,081 packets**. The original source of that exact historical number is no longer traceable in the surviving artifacts, so the repository now uses only directly reproducible/documented counts.
 
 ### 🏭 Stage C: Logic Synthesis & Optimization
-The verified RTL was synthesized using Synopsys Fusion Compiler to evaluate the maximum physical performance limits.
-* **Timing Closure:** Target clock period set to 5.01 ns under worst-case (Slow Corner) conditions.
-* **Power Optimization:** Implemented Integrated Clock Gating (ICG) across 98.32% of registers.
-* **Results:** Optimization yielded a **78.4% reduction in dynamic power** (from 677 µW down to 146 µW) and a 13.8% reduction in total area.
-* **Performance:** Post-synthesis slack analysis confirmed a theoretical maximum operating frequency of 216.45 MHz. 
-* **Gate-Level Simulation (GLS):** The final netlist was successfully verified using full SDF (Standard Delay Format) back-annotation with zero timing violations.
+The RTL was synthesized using Synopsys Fusion Compiler targeting a 32 nm educational technology library.
+
+* **Timing target:** 5.01 ns clock period under the slow corner.
+* **Clock gating:** Integrated Clock Gating was applied across 98.32% of registers.
+* **Power:** Dynamic power reduced from 677 µW to 146 µW (**78.4% reduction**).
+* **Area:** Total area reduced by **13.8%**.
+* **Performance:** Reported theoretical maximum operating frequency: **216.45 MHz**.
+* **Gate-level simulation:** The project includes evidence of gate-level simulation with SDF back-annotation and Verdi waveform/debug artifacts.
 
 ### 🛠️ Tech Stack
-* **Language:** SystemVerilog (RTL & OOP Testbenches)
-* **EDA Tools:** Synopsys VCS, Synopsys Fusion Compiler
-* **Concepts:** Round-Robin Arbitration, FSM Design, Mailbox Synchronization, Functional Coverage, Clock Gating, Gate-Level Simulation
+* **Language:** SystemVerilog
+* **EDA tools used in the project:** Synopsys VCS, Verdi, Fusion Compiler
+* **Concepts:** FIFO buffering, round-robin arbitration, FSMs, constrained-random verification, OOP testbench architecture, mailboxes, scoreboard checking, functional coverage, clock gating, gate-level simulation, SDF back-annotation
