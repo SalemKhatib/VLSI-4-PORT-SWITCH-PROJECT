@@ -1,3 +1,4 @@
+import packet_pkg::*;
 interface port_if (input bit clk, input bit rst_n);
 
 	// Signals IN to the switch 
