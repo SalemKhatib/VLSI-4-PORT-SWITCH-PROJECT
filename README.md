@@ -5,6 +5,15 @@ A 2-person academic ASIC front-end project for a parameterizable 4-port packet s
 
 The design accepts traffic from four independent input ports, buffers packets in per-port FIFOs, arbitrates access to a shared output path, and supports unicast, multicast, and broadcast delivery.
 
+### Project timeline
+
+This repository contains work from two distinct phases:
+
+* **January 2026 — original academic project:** RTL implementation, original SystemVerilog verification flow, Fusion Compiler synthesis/PPA optimization, and gate-level simulation.
+* **September 2026 — re-verification and RTL cleanup:** the project was revisited with a stricter scoreboard, which exposed verification blind spots and RTL corner cases. The RTL and scoreboard were corrected and the updated RTL was re-verified with repeated constrained-random regressions.
+
+> **Important:** The synthesis/PPA and gate-level results in Stage C are from the **original January 2026 RTL**. The September 2026 corrected RTL has been re-verified at RTL level, but has **not been re-synthesized**.
+
 ---
 
 ## ⚙️ Stage A: Architecture & RTL Design
@@ -67,9 +76,9 @@ Because multicast and broadcast packets are delivered to multiple destinations, 
 
 ---
 
-## ✅ Strict Re-Verification
+## ✅ September 2026 Strict Re-Verification
 
-The verification environment was later strengthened and the RTL was re-tested with a stricter scoreboard.
+The verification environment was strengthened when the project was revisited in September 2026, and the RTL was re-tested with a stricter scoreboard.
 
 The updated checker now requires all of the following for a PASS:
 
@@ -168,13 +177,15 @@ The final report now uses `get_coverage()` and reports the verified **100% sourc
 
 ---
 
-## 🏭 Stage C: Logic Synthesis & Optimization
+## 🏭 Stage C: Historical Synthesis & Optimization — January 2026
 
-The RTL was synthesized using **Synopsys Fusion Compiler** targeting a **32 nm educational technology library**.
+The original January 2026 RTL was synthesized and optimized using **Synopsys Fusion Compiler** targeting a **32 nm educational technology library**.
 
-Key implementation results:
+> These implementation results correspond to the **pre-fix January RTL**. The September 2026 RTL corrections described above were validated through RTL simulation but were **not re-synthesized**, so the metrics below should not be interpreted as measurements of the current corrected RTL.
 
-| Metric | Result |
+Historical implementation results:
+
+| Metric | January 2026 result |
 |---|---:|
 | Timing target | 5.01 ns |
 | Maximum operating frequency | **216.45 MHz** |
@@ -183,7 +194,7 @@ Key implementation results:
 | Dynamic power reduction | **78.4%** |
 | Total area reduction | **13.8%** |
 
-The project also includes evidence of **gate-level simulation with SDF back-annotation** and Verdi waveform/debug artifacts.
+The January project artifacts also include evidence of **gate-level simulation with SDF back-annotation** and Verdi waveform/debug artifacts for that original implementation.
 
 ---
 
@@ -213,7 +224,7 @@ VLSI-4-PORT-SWITCH-PROJECT/
 |   `-- vc_test.sv
 |
 `-- SYNTHESIS/
-    `-- synthesis / implementation artifacts
+    `-- January 2026 synthesis / implementation artifacts
 ```
 
 ---
@@ -230,6 +241,8 @@ VLSI-4-PORT-SWITCH-PROJECT/
 
 ## 🎯 Key Takeaway
 
-This project covers the complete student front-end flow from **RTL architecture and implementation**, through **constrained-random verification and scoreboard debugging**, to **synthesis, PPA optimization, and gate-level simulation**.
+The **January 2026 academic project** covered RTL implementation, constrained-random verification, synthesis/PPA optimization, and gate-level simulation.
 
-The later strict re-verification was especially useful for exposing subtle arbitration/FIFO corner cases, strengthening the scoreboard, and confirming **100% source × destination functional coverage** with clean randomized regressions.
+In **September 2026**, the project was revisited specifically from a verification/debug perspective. A stricter scoreboard exposed weaknesses in the original checker and several RTL corner cases. The RTL and verification environment were corrected, then re-tested with repeated **8,000-input constrained-random regressions**, achieving **zero unexpected outputs, zero missing expected outputs, and 100% source × destination functional coverage**.
+
+The repository therefore contains both the historical January implementation results and the later September RTL/verification corrections; the historical synthesis metrics are intentionally kept separate from the current corrected RTL.
