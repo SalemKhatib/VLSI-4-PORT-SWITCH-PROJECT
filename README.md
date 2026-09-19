@@ -83,17 +83,22 @@ A representative 8,000-input constrained-random rerun produced:
 
 ```text
 Generated input packets:          8000
-Expected destination events:      11723
-Observed destination events:      11723
-Matched destination events:       11723
+Expected destination events:      11514
+Observed destination events:      11514
+Matched destination events:       11514
 Unexpected/unmatched events:      0
 Missing expected events:          0
+Source x destination coverage:    100.00%
 STATUS: PASSED
 ```
 
 The randomized regression was repeated with different destination-event totals due to multicast/broadcast traffic and continued to complete with **zero unexpected outputs and zero missing expected outputs**.
 
-Archived project documentation also reports **100% source/destination cross coverage** from the original project verification flow.
+Functional coverage was also re-checked directly in VCS. The source × destination cross reached **100.00%**. A diagnostic run showed that `get_coverage()` reported the aggregate result correctly, while `get_inst_coverage()` returned 0.00% for this covergroup instance, so the final scoreboard reports coverage using:
+
+```systemverilog
+coverage_pct = cov.cg_packet.get_coverage();
+```
 
 ---
 
@@ -149,6 +154,17 @@ missing expected output  -> failure
 ```
 
 It also removes duplicate suppression based only on packet field equality, since two independent randomized packets may legitimately contain identical values.
+
+### Functional coverage reporting
+
+The coverage model itself was collecting correctly, but the scoreboard originally queried it with the wrong API for this setup:
+
+```text
+get_inst_coverage() -> 0.00%
+get_coverage()      -> 100.00%
+```
+
+The final report now uses `get_coverage()` and reports the verified **100% source × destination cross coverage**.
 
 ---
 
@@ -216,4 +232,4 @@ VLSI-4-PORT-SWITCH-PROJECT/
 
 This project covers the complete student front-end flow from **RTL architecture and implementation**, through **constrained-random verification and scoreboard debugging**, to **synthesis, PPA optimization, and gate-level simulation**.
 
-The later strict re-verification was especially useful for exposing subtle arbitration/FIFO corner cases and improving both the RTL and the verification methodology.
+The later strict re-verification was especially useful for exposing subtle arbitration/FIFO corner cases, strengthening the scoreboard, and confirming **100% source × destination functional coverage** with clean randomized regressions.
